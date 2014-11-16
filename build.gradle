@@ -1,4 +1,6 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
     mavenCentral()
@@ -15,4 +17,54 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = 2.2
+}
+
+task javadocJar(type: Jar, dependsOn: groovydoc) {
+    from 'build/docs/groovydoc'
+    classifier = 'javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allGroovy
+    classifier = 'sources'
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+tasks.uploadArchives.dependsOn javadocJar
+tasks.uploadArchives.dependsOn sourcesJar
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                licenses {
+                    license {
+                        name "The MIT License (MIT)"
+                        url "http://opensource.org/licenses/MIT"
+                        distribution "repo"
+                    }
+                }
+                developers {
+                    developer {
+                        id "litpho"
+                        name "Jasper de Vries"
+                        email "litpho@gmail.com"
+                    }
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign configurations.archives
 }
