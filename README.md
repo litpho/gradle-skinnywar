@@ -13,7 +13,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.github.litpho.:gradle-skinnywar:0.0.1-SNAPSHOT'
+    classpath 'com.github.litpho.:gradle-skinnywar:0.0.1'
   }
 }
 
@@ -26,7 +26,7 @@ Build script snippet for new, incubating, plugin mechanism introduced in Gradle 
 
 ```
 plugins {
-  id 'com.github.litpho.gradle-skinnywar' version '0.0.1-SNAPSHOT'
+  id 'com.github.litpho.gradle-skinnywar' version '0.0.1'
 }
 ```
 
