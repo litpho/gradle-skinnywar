@@ -44,7 +44,7 @@ uploadArchives {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
             if (isReleaseVersion) {
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
                     authentication(userName: sonatypeUsername, password: sonatypePassword)
                 }
             } else {
@@ -54,6 +54,17 @@ uploadArchives {
             }
 
             pom.project {
+                name 'Gradle SkinnyWar'
+                packaging 'jar'
+                description 'Gradle SkinnyWar is a Gradle plugin to provide skinny war functionality'
+                url 'https://github.com/litpho/gradle-skinnywar'
+
+                scm {
+                    url 'scm:git@github.com:litpho/gradle-skinnywar.git'
+                    connection 'scm:git@github.com:litpho/gradle-skinnywar.git'
+                    developerConnection 'scm:git@github.com:litpho/gradle-skinnywar.git'
+                }
+
                 licenses {
                     license {
                         name "The MIT License (MIT)"
